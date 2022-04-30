@@ -29,7 +29,7 @@ const ProjectSchema=new Schmea({
     },
     status:{
         type:String,
-        default:"N"
+        default:"Not Started"
     },
     members:[
         {type:ObjectId,ref:"User"}

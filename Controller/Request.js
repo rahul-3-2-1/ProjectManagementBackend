@@ -78,16 +78,31 @@ exports.updateRequest=async(req,res)=>{
     
 }
 
-exports.getRequestByCompanyId=async(res,res)=>{
+exports.getRequestByCompanyId=async(req,res)=>{
     try{
     const companyId=req.params.companyId;
-    const limnit=req.query.limit;
-    const dt=await Request.find({companyId:companyId}).limit(limit).sort({requestedAt:-1});
-    
+    const lim=req.query.limit;
+    const dt=await Request.find({companyId:companyId}).sort({requestedAt:"-1"}).limit(lim);
+        res.status(200).json({data:dt,status:"success"});
+
+
     }
     catch(err)
     {
 
+        res.status(400).json({message:err.message,status:"error"});
     }
 
+}
+
+exports.getRequestByProjectId=async(req,res)=>{
+    try{
+    const companyId=req.params.companyId;
+    const dt=await Request.find({companyId}).sort({requestedAt:"-1"});
+    res.status(200).json({data:dt,status:"success"});
+    }
+    catch(err)
+    {
+        res.status(400).json({message:err.message,status:"error"});
+    }
 }

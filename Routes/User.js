@@ -9,5 +9,6 @@ router.get('/login',createUser.login);
 router.get('/alluser/:companyId',createUser.protect,createUser.getAllUser);
 
 
+
 module.exports=router;
 

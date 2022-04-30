@@ -58,7 +58,7 @@ exports.getProjects=async(req,res)=>{
 
     try{
         
-    const data=await Project.find({comapnyId:req.comapnyId}).where('members').in([req.params.userId]).where('stages').populate('stages');
+    const data=await Project.find({comapnyId:req.comapnyId}).where('members').in([req.params.userId]);
         res.status(200).json({data:data});
 
     }
@@ -68,6 +68,18 @@ exports.getProjects=async(req,res)=>{
     }
 }
 
+exports.getProjectByCompanyId=async(req,res)=>{
+    try{
+        const data=await Project.find({companyId:req.params.companyId}).populate('members');
+        res.status(200).json({data,status:"success"});
+
+    }
+    catch(err)
+    {   
+        res.status(400).json({message:err.message,status:"error"});
+
+    }
+}
 exports.update=async(req,res)=>{
     try{
 

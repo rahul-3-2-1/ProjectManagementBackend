@@ -74,3 +74,43 @@ exports.update=async(req,res,next)=>{
     }
 
 }
+
+exports.updateStages=async(req,res,next)=>{
+    try{
+        const {stages}=req.body;
+
+        const stg=[];
+
+        for(item of stages)
+        {
+            if(item?.stage_id)
+            {
+               const dt= await Stages.findByIdAndUpdate({_id:item?.stage_id},{...item});
+                stg.push(dt._id);
+                
+            }
+            else
+            {
+                const nwstg=new Stages();
+                nwstg.title=item?.title;
+                nwstg.weight=item?.weight;
+                nwstg.startDate=new Date(item?.startDate);
+                nwstg.endDate=new Date(item?.endDate);
+                nwstg.description=item?.description;
+                nwstg.projectId=req.params.id;
+
+
+                const added=await nwstg.save();
+                stg.push(added._id);
+
+            }
+        }
+        req.stagesId=stg;
+        next();
+    }
+    catch(err)
+    {
+        console.log(err);
+
+    }
+}

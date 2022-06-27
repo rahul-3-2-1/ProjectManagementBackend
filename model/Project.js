@@ -7,6 +7,11 @@ const ProjectSchema=new Schmea({
         require:[true,"Please Provide title"],
 
     },
+    category:{
+        type:String,
+        require:[true,"Please Provide category"],
+
+    },
     startDate:{
         type:Date,
         require:[true,"Please Provide Start Date"]
@@ -16,7 +21,7 @@ const ProjectSchema=new Schmea({
         require:[true,"Please Provide End Date"]
 
     },
-    discription:{
+    description:{
         type:String
     },
     stages:[

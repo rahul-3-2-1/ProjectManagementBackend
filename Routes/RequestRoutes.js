@@ -8,3 +8,5 @@ router.patch('/update',Auth.protect,Request.updateRequest);
 router.get('/allRequest/:companyId',Auth.protect,Request.getRequestByCompanyId);
 
 router.get('/getRequest/:projectId',Auth.protect,Request.getRequestByProjectId);
+
+module.exports=router;

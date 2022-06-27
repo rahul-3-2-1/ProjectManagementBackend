@@ -16,7 +16,7 @@ const StageSchema=new Schema({
         type:ObjectId,
         ref:"Project"
     },
-    discription:{
+    description:{
         type:String,
 
     },
@@ -27,6 +27,10 @@ const StageSchema=new Schema({
     startDate:{
         type:Date,
         
+    },
+    request:{
+        type:String,
+        default:"N"
     },
     endDate:{
         type:Date,

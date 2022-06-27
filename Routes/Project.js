@@ -13,6 +13,9 @@ router.get('/getAllProjects/:userId',Auth.protect,Project.getProjects);
 router.get('/singleProject/:projectId',Auth.protect,Project.getProjectById)
 router.patch('/update/:projectId',Auth.protect,Stages.update,Project.update);
 router.get('/getProjects/:companyId',Auth.protect,Project.getProjectByCompanyId);
+router.patch('/updateProject/:id',Auth.protect,Stages.updateStages,Project.editProject);
+router.delete('/deleteProject/:id',Auth.protect,Project.deleteProject);
+
 
 
 

@@ -8,10 +8,11 @@ const app=require('./App');
 
 
 
+
 mongoose.connect('mongodb://127.0.0.1:27017/project').then(()=>console.log("connected")).catch(err=>{
     console.log(err);
 })
-app.listen(5000,()=>console.log("server connected"));
+app.listen(5001,()=>console.log("server connected"));
 
 
 

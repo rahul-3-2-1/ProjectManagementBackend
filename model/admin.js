@@ -27,6 +27,14 @@ const adminSchema=new Schema({
     isAdmin:{
         type:Boolean,
         default:false
+    },
+    joinedAt:{
+        type:Date,
+        defautl:Date.now()
+    },
+    role:{
+        type:String,
+        required:true
     }
 })
 
@@ -48,6 +56,21 @@ adminSchema.methods.tokenPayload=function(){
         companyId:this.companyId
     }
 }
+
+adminSchema.methods.mapcompanyIdAndHashPassword = async function (docs, companyId) {
+    const updatedDocs = [];
+    for await (doc of docs) {
+        doc["companyId"] = companyId;
+      
+            doc.password = await bcrypt.hash("123456", 2);
+        
+        doc["joinedAt"] = Date.now();
+        doc["isAdmin"]=doc?.admin||false;
+        updatedDocs.push(doc);
+    }
+    return updatedDocs;
+}
+
 
 
 module.exports=mongoose.model("User",adminSchema);

@@ -5,14 +5,19 @@ const Project=require('../model/Project');
 exports.newRequest=async(req,res)=>{
     try{
 
-        const {requestedBy,projectId,stageId,progress,companyId}=req.body;
+        const {requestedBy,projectId,stageId,status,companyId}=req.body;
         const reques=new Request;
         reques.requestedBy=requestedBy;
         reques.projectId=projectId;
         reques.stageId=stageId;
-        reques.progress=progress;
+        reques.status=status;
         reques.companyId=companyId;
         const dt=await reques.save();
+
+        const data=await Stages.findByIdAndUpdate({_id:stageId},{
+            request:"R"
+        })
+        console.log(data);
 
         res.status(202).json({data:dt,status:"success"});
         
@@ -27,29 +32,33 @@ exports.newRequest=async(req,res)=>{
 
 exports.updateRequest=async(req,res)=>{
     try{
-    const {stageId,projectId,status,requestId}=req.body;
+    const {stageId,projectId,status,approve,requestId}=req.body;
 
     const dt=await Request.findByIdAndUpdate({_id:requestId},{
-        status:status
+        approve:approve,
+        requestedAt:Date.now()
     });
+    //  let dcd={};
+    
     await Stages.findByIdAndUpdate({_id:stageId},{
-        status:progress
+        status:status,
+        request:"N"
     })
 
     const dtt=await Stages.find({projectId:projectId});
 
-    const tot=0;
-    const com=0;
+    let tot=0;
+   let com=0;
     dtt.forEach(item=>{
         if(item.status==='C')
-        com+=weight;
-        tot+=weight;
+        com+=item?.weight;
+        tot+=item?.weight;
     })
 
-    let prog=Math.ceil(com/tot)*100;
+    let prog=Math.ceil((com/tot)*100);
     let stat;
 
-    if(prog>0)
+    if(prog>0&&prog<100)
     stat='In Progress';
     else if(prog===100)
     stat="Completed";
@@ -82,7 +91,7 @@ exports.getRequestByCompanyId=async(req,res)=>{
     try{
     const companyId=req.params.companyId;
     const lim=req.query.limit;
-    const dt=await Request.find({companyId:companyId}).sort({requestedAt:"-1"}).limit(lim);
+    const dt=await Request.find({companyId:companyId}).sort({requestedAt:"-1"}).limit(lim).populate("projectId requestedBy stageId");
         res.status(200).json({data:dt,status:"success"});
 
 

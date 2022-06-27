@@ -3,7 +3,7 @@ const Schema=mongoose.Schema;
 ObjectId=Schema.ObjectId;
 
 const RequestSchema=new Schema({
-    rquestedBy:{
+    requestedBy:{
         type:ObjectId,
         ref:"User"
     },
@@ -31,8 +31,9 @@ const RequestSchema=new Schema({
         
 
     },
-    progress:{
+    approve:{
         type:String,
+        default:"NA"
 
     }
 

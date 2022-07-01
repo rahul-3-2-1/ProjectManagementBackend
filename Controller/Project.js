@@ -10,7 +10,8 @@ exports.addProject=async(req,res,next)=>{
         {
             res.status(400).json({message:"Some fields are empty"});
         }
-
+        req.body.to=members;
+        req.body.message="you are added in the project";
         const proj=new Project;
         proj.title=title;
         proj.startDate=new Date(startDate);
@@ -37,15 +38,16 @@ exports.addProject=async(req,res,next)=>{
 
 }
 
-exports.updateProject=async(req,res)=>{
+exports.updateProject=async(req,res,next)=>{
     const stagesId=req.stagesId;
     console.log(stagesId);
     try{
     const dt=await Project.findByIdAndUpdate({_id:req.projectId},{
         stages:stagesId
     })
-
-    res.status(202).json({data:dt});
+    req.data=dt;
+    next();
+    
     }
     catch(err)
     {

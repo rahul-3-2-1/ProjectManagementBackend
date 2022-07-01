@@ -35,6 +35,11 @@ const adminSchema=new Schema({
     role:{
         type:String,
         required:true
+    },
+    profilePic:{
+        type:String,
+        default:""
+
     }
 })
 
@@ -52,8 +57,10 @@ adminSchema.methods.tokenPayload=function(){
     return{
         user_id:this._id,
         email:this.email,
+        name:this.name,
         isAdmin:this.isAdmin,
-        companyId:this.companyId
+        companyId:this.companyId,
+        profilePic:this?.profilePic
     }
 }
 

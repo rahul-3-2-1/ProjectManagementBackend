@@ -256,13 +256,46 @@ exports.deleteUser=async(req,res)=>{
     }
 }
 
-exports.updateProject=async(req,res)=>{
+
+
+exports.modifyPassword=async(req,res)=>{
     try{
+
+        const {newPassword,cPassword}=req.body;
+        if(newPassword!==cPassword)
+        {
+            return res.status(400).json({staus:"error",message:"passwords are not matching"});
+        }
+        const dt= await User.findById({_id:req.params.id});
+        if(!dt)
+        {
+            res.status(404).json({status:"error",message:"User Not Found"});
+        }
+
+        dt.password=newPassword;
+        const data=await dt.save();
+        res.status(200).json({status:"success",message:"Password Updated Successfully"});
+        
+    }
+    catch(err)
+    {
+        res.status(err.statusCode||500).json({staus:"error",message: err.message || "Something went wrong"});
+    }
+
+
+}
+
+exports.updateProfilePic=async(req,res)=>{
+    try{
+        const data=await User.findByIdAndUpdate({_id:req.params.id},{profilePic:req.body.pic});
+
+        res.status(202).json({message:"pic updated Successfully",status:"success"});
+
 
     }
     catch(err)
     {
-        
+        res.status(err.statusCode||500).json({message:err.message||"Something went wrong"});
     }
 
 }

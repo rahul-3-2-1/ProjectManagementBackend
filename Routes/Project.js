@@ -4,9 +4,10 @@ const Project=require("../Controller/Project");
 // const updateProject=require("../Controller/Project");
 const Auth=require("../Controller/Auth");
 const Stages=require("../Controller/Stages");
+const Notification=require('../Controller/Notification');
 
 // console.log(addProject);
-router.post('/add',Auth.protect,Project.addProject,Stages.addStages,Project.updateProject);
+router.post('/add',Auth.protect,Project.addProject,Stages.addStages,Project.updateProject,Notification.addNotifications);
 
 
 router.get('/getAllProjects/:userId',Auth.protect,Project.getProjects);
